@@ -241,3 +241,5 @@ conn = sqlite3.connect(db_name)
 
 for game in json_data:
     process_spread(game, conn)
+
+conn.close()
