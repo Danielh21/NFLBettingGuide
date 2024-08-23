@@ -17,7 +17,11 @@ def process_spread(game, conn : sqlite3.Connection):
     
     if row is not None:
         print(f"Found Matching game for {game['home_team']} - {game['away_team']}")
-        home_spread = get_home_spread(game)
+        home_spread = None
+        try:
+            home_spread = get_home_spread(game)
+        except:
+            print(colored(f"Error When Getting spread for game: {game['home_team']} - {game['away_team']} ", "red"))
         print(f"Home Spread : {home_spread}")
         gameID = row["game_id"]
         print(f"Found game id: {gameID}")
@@ -45,7 +49,11 @@ def get_home_spread(game):
     bookmaker = find_object_by_key(game["bookmakers"], "nordicbet")
     if(bookmaker is None):
         print(f"Nordic Bet does not have lines for {game['home_team']} - {game['away_team']}")
-        return None
+        if(game['bookmakers']):
+            print(f"Using other bookmaker - {game['bookmakers'][0]['key']}")
+            bookmaker = game["bookmakers"][0]
+        else:
+            return None
     # print(bookmaker)
     spreads = find_object_by_key(bookmaker["markets"], "spreads")
     homeTeam = game["home_team"]
