@@ -1,4 +1,5 @@
 import sqlite3
+from termcolor import colored
 
 def process_spread(game, conn : sqlite3.Connection):
     """Process a single game"""
@@ -21,6 +22,10 @@ def process_spread(game, conn : sqlite3.Connection):
         gameID = row["game_id"]
         print(f"Found game id: {gameID}")
 
+        if(home_spread is None):
+            print(colored(f"Could not find any spread for {game['home_team']} - {game['away_team']} ","red"))
+            return
+
         update_query = """
             UPDATE nfl_schedule
             SET spread_line = ?
@@ -28,7 +33,7 @@ def process_spread(game, conn : sqlite3.Connection):
             """
         cursor.execute(update_query, (home_spread, gameID))
         conn.commit()
-        print(f"Updated {gameID} with spreadLine: {home_spread}")
+        print(colored(f"Updated {gameID} with spreadLine: {home_spread}", "green"))
         
     
     print("-----------")
@@ -37,4 +42,26 @@ def process_spread(game, conn : sqlite3.Connection):
 
 def get_home_spread(game):
     # TODO IMPLEMENT
-    return 3.2
+    bookmaker = find_object_by_key(game["bookmakers"], "nordicbet")
+    if(bookmaker is None):
+        print(f"Nordic Bet does not have lines for {game['home_team']} - {game['away_team']}")
+        return None
+    # print(bookmaker)
+    spreads = find_object_by_key(bookmaker["markets"], "spreads")
+    homeTeam = game["home_team"]
+    homeSpread = find_object_by_custom_key(spreads["outcomes"], "name", homeTeam)
+    return homeSpread["point"]
+
+
+
+def find_object_by_key(json_data, search_key):
+    for obj in json_data:
+        if obj['key'] == search_key:
+            return obj
+    return None
+
+def find_object_by_custom_key(json_data, key, search_key_value):
+    for obj in json_data:
+        if obj[key] == search_key_value:
+            return obj
+    return None
