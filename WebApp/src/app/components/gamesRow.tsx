@@ -8,13 +8,12 @@ interface GameProps {
 
 const GamesRow = ({ game }: GameProps) => {
   const HomeTeamSpread = game.spread_line;
-  // const AwayTeamSpread = game.spread_line;
   const HomeTeamSpreadPos = HomeTeamSpread > 0;
   const homeClassName = classNames({
     "text-green-500": HomeTeamSpreadPos,
     "text-red-500": !HomeTeamSpreadPos,
   });
-  const AwayTeamSpread = Math.abs(HomeTeamSpread);
+  const AwayTeamSpread = -HomeTeamSpread;
 
   const AwayTeamSpreadPos = AwayTeamSpread > 0;
 
