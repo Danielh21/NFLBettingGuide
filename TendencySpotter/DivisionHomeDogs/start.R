@@ -1,6 +1,7 @@
 setwd("C:/Users/DanielHollmann/source/NFL.Predictions/")
 print(getwd())
 source("setup.R")
+source(file.path("TendencySpotter", "General", "WriteToScheduledDatabase.r"))
 library(RSQLite)
 library(DBI)
 library(tictoc)
@@ -39,7 +40,7 @@ id_value <- 1  # Tendecy id
 summary_table <- games_with_positive_spread %>%
   summarize(
     id = id_value,
-    tendecyName = 'Home games where home team are underdogz',
+    tendecyName = 'Home games where home team are underdogs',
     games_included = n(),  # Total number of games analyzed
     analyis_team_cover = sum(cover == 1),  # Count of games where home team covered
     analysis_team_not_cover = sum(cover == -1), # Count of games where away team covered
@@ -51,17 +52,11 @@ summary_table <- games_with_positive_spread %>%
 # Print the summary table
 print(summary_table)
 
-scheduled_file <- file.path(db_directory, "nfl_2024_schedule.db")
-
-scheduled_con <- dbConnect(RSQLite::SQLite(), dbname = scheduled_file)
-
 summary_df <- as.data.frame(summary_table)
 
-# Delete the existing row with the specified id (if it exists)
-dbExecute(scheduled_con, paste0("DELETE FROM tendency WHERE id = ", id_value))
-
-dbWriteTable(scheduled_con, 'tendency', summary_df, append = TRUE, row.names = FALSE)
+write_summary_to_db(summary_df, id_value)
 
 ##
 dbDisconnect(con)
-dbDisconnect(scheduled_con)
+print("Added tendency to database succesfully")
+
