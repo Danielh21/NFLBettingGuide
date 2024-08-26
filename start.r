@@ -30,4 +30,3 @@ data %>%
   dplyr::group_by(season) %>%
   dplyr::summarize(n = dplyr::n()) %>%
   print(n = Inf)
-  

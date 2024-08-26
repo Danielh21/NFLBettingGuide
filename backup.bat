@@ -1,0 +1,1 @@
+sqlite3 nfl_2024_schedule.db ".backup 'C:/Users/DanielHollmann/OneDrive/nfl_2024_schedule_backup.db'"
