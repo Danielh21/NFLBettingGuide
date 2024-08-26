@@ -59,4 +59,3 @@ write_summary_to_db(summary_df, id_value)
 ##
 dbDisconnect(con)
 print("Added tendency to database succesfully")
-
