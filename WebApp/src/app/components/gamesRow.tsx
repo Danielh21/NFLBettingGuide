@@ -25,30 +25,30 @@ const GamesRow = ({ game }: GameProps) => {
   });
 
   return (
-    <div className="flex gap-4">
-      <div className="flex flex-col">
-        <p>
-          {game.home_team}{" "}
-          <span className={homeClassName}>{HomeTeamSpread}</span>{" "}
-        </p>
+    <div className="flex gap-6 ">
+      <div className="flex flex-col items-center min-w-[40%]">
         <Image
           src={GetTeamLogo(game.home_team)}
           alt="logo"
           width={80}
           height={80}
         />
-      </div>
-      <div className="flex flex-col">
         <p>
-          {game.away_team}{" "}
-          <span className={AwayTeamClass}>{AwayTeamSpread}</span>
+          {game.home_team}{" "}
+          <span className={homeClassName}>{HomeTeamSpread}</span>{" "}
         </p>
+      </div>
+      <div className="flex flex-col items-center min-w-[40%]">
         <Image
           src={GetTeamLogo(game.away_team)}
           alt="logo"
           width={80}
           height={80}
         />
+        <p>
+          {game.away_team}{" "}
+          <span className={AwayTeamClass}>{AwayTeamSpread}</span>
+        </p>
       </div>
     </div>
   );
