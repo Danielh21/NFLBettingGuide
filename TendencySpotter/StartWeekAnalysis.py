@@ -1,6 +1,7 @@
 import sys
 import pandas as pd
 import sqlite3
+from DivisionHomeDogs.analyseGame  import anaylse_game_divison_dog
 
 # Check if the correct number of arguments has been provided
 if len(sys.argv) != 2:
@@ -16,7 +17,7 @@ print(parameter)
 print(f"The week your entered is  {parameter} - Getting all games from week")
 
 
-db_name = '../../nfl_2024_schedule.db'
+db_name = '../nfl_2024_schedule.db'
 conn = sqlite3.connect(db_name)
 
 table_name = 'nfl_schedule'
@@ -27,10 +28,11 @@ query = f"SELECT * FROM {table_name} WHERE week = ?"
 # Execute the query using the parameter
 try:
     # Use a parameterized query to avoid SQL injection
-    df = pd.read_sql_query(query, conn, params=(parameter,))
-    
-    # Display the results
-    print(df)
+    df = pd.read_sql_query(query, conn, params=(parameter))
+
+    for index, row in df.iterrows():
+        anaylse_game_divison_dog(row)
+
 except Exception as e:
     print(f"An error occurred: {e}")
 finally:
