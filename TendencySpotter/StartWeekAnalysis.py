@@ -11,8 +11,6 @@ if len(sys.argv) != 2:
 # Access the parameter
 parameter = sys.argv[1]
 
-print(parameter)
-
 # Use the parameter with f-string formatting
 print(f"The week your entered is  {parameter} - Getting all games from week")
 
@@ -31,7 +29,7 @@ try:
     df = pd.read_sql_query(query, conn, params=(parameter))
 
     for index, row in df.iterrows():
-        anaylse_game_divison_dog(row)
+        anaylse_game_divison_dog(row, conn)
 
 except Exception as e:
     print(f"An error occurred: {e}")

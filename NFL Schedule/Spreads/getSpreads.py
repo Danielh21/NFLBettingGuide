@@ -14,7 +14,7 @@ response = requests.get(f"https://api.the-odds-api.com/v4/sports/americanfootbal
 
 json_data = response.json()
 
-db_name = './nfl_2024_schedule.db'
+db_name = '../../nfl_2024_schedule.db'
 abs_path = os.path.abspath(db_name)
 print(f"Connecting to database at: {abs_path}")
 conn = sqlite3.connect(db_name)
