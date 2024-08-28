@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { GetGames, GetNextWeek } from "../actions/getGames";
 import GamesRow from "../components/GamesRow";
 import WeekSelector from "../components/WeekSelector";
@@ -13,7 +14,11 @@ export default async function Home({ params }: { params: { slug: string } }) {
       <WeekSelector currentWeekNo={weekNo} />
       <div className="w-full max-w-5xl items-center grid grid-cols-2 gap-x-4 gap-y-10 text-white py-10">
         {games.map((g, index) => {
-          return <GamesRow game={g} key={index}></GamesRow>;
+          return (
+            <Link href={`game/${g.game_id}`} key={index}>
+              <GamesRow game={g}></GamesRow>
+            </Link>
+          );
         })}
       </div>
     </main>

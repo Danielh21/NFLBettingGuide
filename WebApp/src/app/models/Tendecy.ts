@@ -5,4 +5,5 @@ export interface Tendency {
   games_included: number;
   analyis_team_cover: number;
   analysis_team_not_cover: number;
+  pushes: number;
 }

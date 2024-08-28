@@ -6,9 +6,10 @@ import { GetTeamLogo } from "../helpers/TeamHelper";
 
 interface GameProps {
   game: Game;
+  hideCounter?: boolean;
 }
 
-const GamesRow = ({ game }: GameProps) => {
+const GamesRow = ({ game, hideCounter = false }: GameProps) => {
   const HomeTeamSpread = game.spread_line;
   const HomeTeamSpreadPos = HomeTeamSpread > 0;
   const homeClassName = classNames({
@@ -29,7 +30,7 @@ const GamesRow = ({ game }: GameProps) => {
   });
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col ">
       <div className="flex gap-6">
         <div className="flex flex-col items-center min-w-[40%]">
           <Image
@@ -56,10 +57,14 @@ const GamesRow = ({ game }: GameProps) => {
           </p>
         </div>
       </div>
-      <div className="flex justify-center text-center max-w-[80%] mt-3">
-        Tendencies Counter: &nbsp;
-        <span className={tendencyClassCounter}>{game.numberOfTendencies}</span>
-      </div>
+      {!hideCounter && (
+        <div className="flex justify-center text-center max-w-[80%] mt-3">
+          Tendencies Counter: &nbsp;
+          <span className={tendencyClassCounter}>
+            {game.numberOfTendencies}
+          </span>
+        </div>
+      )}
     </div>
   );
 };
