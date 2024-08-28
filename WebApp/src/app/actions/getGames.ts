@@ -7,7 +7,19 @@ import { CreateGame } from "../factories/GameFactory";
 import { NextWeek } from "../models/NextWeek";
 
 export async function GetGames(weekNo: number): Promise<Game[]> {
-  const query = `select * from nfl_schedule where week = ${weekNo}`;
+  const query = `SELECT 
+                  s.*, 
+                  COUNT(m.nfl_schedule_game_id) AS numberOfTendencies
+                FROM 
+                  nfl_schedule s
+                LEFT JOIN 
+                  tendecy_game_map m ON s.game_id = m.nfl_schedule_game_id
+                WHERE 
+                  s.week = ${weekNo}
+                GROUP BY 
+                  s.game_id;
+                `;
+  // const query = `select * from nfl_schedule where week = ${weekNo}`;
   const rows = (await getRows(query)) as any[];
   const gameArray: Game[] = [];
   rows.forEach((r) => {

@@ -11,7 +11,7 @@ export default async function Home({ params }: { params: { slug: string } }) {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24 text-white">
       <WeekSelector currentWeekNo={weekNo} />
-      <div className="w-full max-w-5xl items-center grid grid-cols-2 gap-4 text-white">
+      <div className="w-full max-w-5xl items-center grid grid-cols-2 gap-x-4 gap-y-10 text-white py-10">
         {games.map((g, index) => {
           return <GamesRow game={g} key={index}></GamesRow>;
         })}

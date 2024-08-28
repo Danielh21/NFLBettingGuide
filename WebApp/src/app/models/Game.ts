@@ -1,3 +1,5 @@
+import { Tendency } from "./Tendecy";
+
 export interface Game {
   game_id: string;
   week: number;
@@ -5,4 +7,6 @@ export interface Game {
   away_team: string;
   spread_line: number;
   div_game: boolean;
+  numberOfTendencies?: number;
+  tendencies?: Tendency[];
 }

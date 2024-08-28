@@ -40,7 +40,8 @@ id_value <- 1  # Tendecy id
 summary_table <- games_with_positive_spread %>%
   summarize(
     id = id_value,
-    tendecyName = 'Home games where home team are underdogs',
+    text_describtion = 'Division games where home team are underdogs. Analysis team is the home team. Division dogs are [analyis_team_cover]-[analysis_team_not_cover]-[pushes] in games where the home team are underdog since 2024',
+    tendecyName = 'Division home underdog',
     games_included = n(),  # Total number of games analyzed
     analyis_team_cover = sum(cover == 1),  # Count of games where home team covered
     analysis_team_not_cover = sum(cover == -1), # Count of games where away team covered

@@ -7,6 +7,7 @@ export function CreateGame(game: any): Game {
     home_team: game.home_team,
     away_team: game.away_team,
     spread_line: game.spread_line,
-    div_game: Boolean(game.div_game), // Convert to boolean
+    div_game: Boolean(game.div_game), // Convert to boolean,
+    numberOfTendencies: game.numberOfTendencies,
   };
 }
