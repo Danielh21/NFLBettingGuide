@@ -4,10 +4,8 @@ import TendencyRow from "@/app/components/TendencyRow";
 import Link from "next/link";
 
 export default async function Game({ params }: { params: { slug: string } }) {
-  const game = await GetSingleGame(Number.parseInt(params.slug));
-  const allTendencies = await GetTendenciesForGame(
-    Number.parseInt(params.slug)
-  );
+  const game = await GetSingleGame(params.slug);
+  const allTendencies = await GetTendenciesForGame(params.slug);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24 text-white">
