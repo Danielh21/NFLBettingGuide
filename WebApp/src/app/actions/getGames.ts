@@ -13,7 +13,7 @@ export async function GetGames(weekNo: number): Promise<Game[]> {
                   s.*, 
                   COUNT(m.nfl_schedule_game_id) AS numberOfTendencies
                 FROM 
-                  nfl_schedule s
+                  nfl_schedule_2024 s
                 LEFT JOIN 
                   tendecy_game_map m ON s.game_id = m.nfl_schedule_game_id
                 WHERE 
@@ -32,19 +32,19 @@ export async function GetGames(weekNo: number): Promise<Game[]> {
 
 export async function GetNextWeek(): Promise<NextWeek> {
   const query =
-    "SELECT game_date, week FROM nfl_schedule WHERE  DATE(substr(game_date, 7, 4) || '-' || substr(game_date, 1, 2) || '-' || substr(game_date, 4, 2) || ' ' || substr(game_date, 12, 5)) > DATE('now') ORDER BY  DATE(substr(game_date, 7, 4) || '-' || substr(game_date, 1, 2) || '-' || substr(game_date, 4, 2) || ' ' || substr(game_date, 12, 5)) LIMIT 1;";
+    "SELECT MIN(gameday) AS game_day, week FROM nfl_schedule_2024 WHERE gameday > DATE('now') LIMIT 1;";
   const row = (await getRows(query)) as any;
   return row[0] as NextWeek;
 }
 
-export async function GetSingleGame(id: number): Promise<Game> {
-  const query = `select * from nfl_schedule where game_id = ${id}`;
+export async function GetSingleGame(id: string): Promise<Game> {
+  const query = `select * from nfl_schedule_2024 where game_id = '${id}'`;
   const row = (await getRows(query)) as any;
   return CreateGame(row[0]);
 }
 
-export async function GetTendenciesForGame(id: number): Promise<Tendency[]> {
-  const query = `select * from tendency t join tendecy_game_map m where m.nfl_schedule_game_id = ${id}`;
+export async function GetTendenciesForGame(id: string): Promise<Tendency[]> {
+  const query = `select * from tendency t join tendecy_game_map m where m.nfl_schedule_game_id = '${id}'`;
   const rows = (await getRows(query)) as any[];
   const tendencyArray: Tendency[] = [];
   rows.forEach((r) => {

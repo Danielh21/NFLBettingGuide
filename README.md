@@ -2,17 +2,14 @@
 
 ## How to update data
 
-### pbp_db database
-This database used the R package [NFL Fast R](https://www.nflfastr.com/articles/nflfastR.html) to collect play-by-play data  
+### Tendency database
 
-Use the script ```LoadDB.R``` to update the SQLlite database. (Not part of repo)
+Use R script LoadDB.R to update with both spread and play by play data using  
+[NflFastR](https://www.nflfastr.com/index.html) and [nflreadr](https://nflreadr.nflverse.com/) packages.
 
 
-### nfl_2024_schedule.db  
-To load the 2024 schedule use the ``nfl_schedule_to_sql.py`` script and enrich with ``addtoDivisions.py`` to update the database with info about indivion games or not.  
-
-Use the ``getSpreads.py` script to update the latest spread using [https://api.the-odds-api.com](https://api.the-odds-api.com) - Provide your own key.
-
+## Run Analysis
+For Running analysis use the `startWeekAnalysis.py` script with a week no, as parameter to load all tedencies.  
 
 
 ## Web app  

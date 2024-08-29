@@ -3,7 +3,7 @@ write_summary_to_db <- function(summary_df, id_value) {
   library(DBI)
   library(RSQLite)
   
-  scheduled_file <- file.path(db_directory, "nfl_2024_schedule.db")
+  scheduled_file <- file.path(db_directory, "tendencies.db")
   
   scheduled_con <- dbConnect(RSQLite::SQLite(), dbname = scheduled_file)
   

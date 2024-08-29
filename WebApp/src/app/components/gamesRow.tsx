@@ -10,7 +10,7 @@ interface GameProps {
 }
 
 const GamesRow = ({ game, hideCounter = false }: GameProps) => {
-  const HomeTeamSpread = game.spread_line;
+  const HomeTeamSpread = -game.spread_line; //Since it shown oppsite of the betting sites
   const HomeTeamSpreadPos = HomeTeamSpread > 0;
   const homeClassName = classNames({
     "text-green-500": HomeTeamSpreadPos,

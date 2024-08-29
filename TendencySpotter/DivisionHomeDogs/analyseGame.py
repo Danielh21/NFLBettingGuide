@@ -3,10 +3,13 @@ from termcolor import colored
 
 def anaylse_game_divison_dog(game, conn : sqlite3.Connection):
 
+    print(colored(f"Game {game['home_team']} - {game['away_team']}  {game['spread_line']}", "green"))
     tendency_id = 1
-    
+    if(game['spread_line'] is None):
+        print("Game does not have spread_line")
+        return
     # Should insert if the game is a division game and the home team is a dog
-    if (game['spread_line'] > 0 & game['div_game']):
+    if (game['spread_line'] < 0 & game['div_game']):
         print(colored(f"Game should count {game['home_team']} - {game['away_team']} ", "green"))
 
         queryToCheckIfExits = "select * from tendecy_game_map  where nfl_schedule_game_id = ? and tendecy_id  = ?"

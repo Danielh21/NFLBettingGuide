@@ -11,7 +11,7 @@ library(dplyr, warn.conflicts = FALSE)
 # Now you can use the options set in setup.R
 db_directory <- getOption("nflfastR.dbdirectory")
 
-db_file <- file.path(db_directory, "pbp_db")
+db_file <- file.path(db_directory, "tendencies.db")
 
 # Connect to the SQLite database
 con <- dbConnect(RSQLite::SQLite(), dbname = db_file)

@@ -15,13 +15,13 @@ parameter = sys.argv[1]
 print(f"The week your entered is  {parameter} - Getting all games from week")
 
 
-db_name = '../nfl_2024_schedule.db'
+db_name = '../tendencies.db'
 conn = sqlite3.connect(db_name)
 
-table_name = 'nfl_schedule'
+table_name = 'nfl_schedule_2024'
 
 # Define the SQL query using the parameter
-query = f"SELECT * FROM {table_name} WHERE week = ?"
+query = f"SELECT * FROM {table_name} WHERE week = ? and season = 2024"
 
 # Execute the query using the parameter
 try:
