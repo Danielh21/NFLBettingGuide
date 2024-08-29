@@ -15,13 +15,17 @@ parameter = sys.argv[1]
 print(f"The week your entered is  {parameter} - Getting all games from week")
 
 
-db_name = '../nfl_2024_schedule.db'
+db_name = '../nfl_2024.db'
 conn = sqlite3.connect(db_name)
 
-table_name = 'nfl_schedule'
+table_name = 'nfl_schedule_2024'
 
 # Define the SQL query using the parameter
-query = f"SELECT * FROM {table_name} WHERE week = ?"
+query = f"SELECT * FROM {table_name} WHERE week = ? and season = 2024"
+
+
+tendency_DB = '../tendencies.db'
+tendecyConn = sqlite3.connect(tendency_DB)
 
 # Execute the query using the parameter
 try:
@@ -29,10 +33,11 @@ try:
     df = pd.read_sql_query(query, conn, params=(parameter))
 
     for index, row in df.iterrows():
-        anaylse_game_divison_dog(row, conn)
+        anaylse_game_divison_dog(row, tendecyConn)
 
 except Exception as e:
     print(f"An error occurred: {e}")
 finally:
     # Close the database connection
     conn.close()
+    tendecyConn.close()

@@ -231,3 +231,5 @@ rsconnect/
 # End of https://www.toptal.com/developers/gitignore/api/r,python
 nfl_2024_schedule.db
 pbp_db
+nfl_2024.db
+tendencies.db
