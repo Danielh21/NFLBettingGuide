@@ -19,7 +19,11 @@ export default async function Game({ params }: { params: { slug: string } }) {
           {allTendencies.map((t, index) => {
             return (
               <div className="py-10 flex-col flex gap-6" key={index}>
-                <TendencyRow tendency={t} />
+                <TendencyRow
+                  homeTeamName={game.home_team}
+                  awayTeamName={game.away_team}
+                  tendency={t}
+                />
               </div>
             );
           })}

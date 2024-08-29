@@ -19,7 +19,7 @@ def anaylse_game_divison_dog(game, conn : sqlite3.Connection):
 
         if row is None:
             #Insert
-            insertQuery = "insert into tendecy_game_map VALUES (?,?) "
+            insertQuery = "insert into tendecy_game_map VALUES (?,?, 1) "
             conn.execute(insertQuery, (tendency_id, game['game_id']))
             print(colored(f"Game Tendency Added to DB {game['home_team']} - {game['away_team']} ", "green"))
             conn.commit()

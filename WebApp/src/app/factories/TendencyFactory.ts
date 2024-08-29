@@ -9,5 +9,6 @@ export function CreateTendency(row: any): Tendency {
     analysis_team_not_cover: row.analysis_team_not_cover,
     analyis_team_cover: row.analyis_team_cover,
     pushes: row.pushes,
+    analyis_team_is_home_team: row.analyis_team_is_home_team,
   };
 }
