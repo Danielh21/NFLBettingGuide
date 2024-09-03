@@ -1,4 +1,5 @@
-setwd("C:/Users/DanielHollmann/source/NFL.Predictions/")
+library(here)
+setwd(here())
 print(getwd())
 source("setup.R")
 source(file.path("TendencySpotter", "WriteToScheduledDatabase.r"))

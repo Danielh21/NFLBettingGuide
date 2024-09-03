@@ -9,7 +9,7 @@ def anaylse_game_divison_dog(game, conn : sqlite3.Connection):
         print("Game does not have spread_line")
         return
     # Should insert if the game is a division game and the home team is a dog
-    if (game['spread_line'] < 0 & game['div_game']):
+    if (game['spread_line'] < 0 and game['div_game']):
         print(colored(f"Game should count {game['home_team']} - {game['away_team']} ", "green"))
 
         queryToCheckIfExits = "select * from tendecy_game_map  where nfl_schedule_game_id = ? and tendecy_id  = ?"

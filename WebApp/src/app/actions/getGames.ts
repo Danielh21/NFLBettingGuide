@@ -44,7 +44,10 @@ export async function GetSingleGame(id: string): Promise<Game> {
 }
 
 export async function GetTendenciesForGame(id: string): Promise<Tendency[]> {
-  const query = `select * from tendency t join tendecy_game_map m where m.nfl_schedule_game_id = '${id}'`;
+  const query = `SELECT * 
+                FROM tendency t 
+                JOIN tendecy_game_map m on m.tendecy_id = t.id
+                WHERE m.nfl_schedule_game_id = '${id}';`;
   const rows = (await getRows(query)) as any[];
   const tendencyArray: Tendency[] = [];
   rows.forEach((r) => {

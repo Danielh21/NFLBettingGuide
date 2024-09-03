@@ -1,10 +1,11 @@
-source("setup.R")
-setwd("C:/Users/DanielHollmann/source/NFL.Predictions/")
-nflfastR::update_db(dbdir = getOption("nflfastR.dbdirectory", default = "C:/Users/DanielHollmann/source/NFL.Predictions"),dbname = "tendencies.db",)
-
+library(here)
+setwd(here())
 library(DBI)
 library(RSQLite)
 library(nflreadr)
+source("setup.R")
+nflfastR::update_db(dbdir = getOption("nflfastR.dbdirectory", default = "C:/Users/DanielHollmann/source/NFL.Predictions"),dbname = "tendencies.db",)
+
 print(getwd())
 nfl_schedule_2024 <- load_schedules(seasons = 2024)
 head(nfl_schedule_2024)
