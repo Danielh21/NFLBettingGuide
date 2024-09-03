@@ -72,16 +72,38 @@ analysis_past_data <- function(con) {
 
 analysis_upcoming_week <- function(con, week) {
   nfl_schedule <- dplyr::tbl(con, "nfl_schedule_2024")
-   upcoming_games <- nfl_schedule %>%
-   filter(season == 2024, 
-   week == !!week, 
-   (home_team %in% NFC & away_team %in% AFC) | (home_team %in% AFC & away_team %in% NFC) 
-   ) %>%   # Filter for positive home team spread line
-   select(home_team, game_id, away_team, home_score, away_score, spread_line, season, week )%>% 
-   arrange(game_id)   # Arrange by game_id to ensure ordering
-  head(upcoming_games)
 
-  
+  upcoming_games <- nfl_schedule %>%
+    filter(season == 2024, 
+           week == !!week, 
+           (home_team %in% NFC & away_team %in% AFC) | (home_team %in% AFC & away_team %in% NFC) 
+           ) %>%
+    select(home_team, game_id, away_team, home_score, away_score, spread_line, season, week )%>% 
+    arrange(game_id) %>%
+    collect()
+
+  custom_df <- data.frame(
+  tendecy_id = numeric(),
+  nfl_schedule_game_id = character(),
+  analyis_team_is_home_team = integer(),
+  stringsAsFactors = FALSE
+)
+
+for (i in 1:nrow(upcoming_games)) {
+  current_game <- upcoming_games[i, ]
+  new_row <- data.frame(
+    tendecy_id = id_value,
+    nfl_schedule_game_id = current_game$game_id,
+    analyis_team_is_home_team = if_else(current_game$spread_line > 0, 1L, 0L)
+  )
+  custom_df <- rbind(custom_df, new_row)
+}
+
+for (i in 1:nrow(custom_df)) {
+  write_game_to_tendecy_map(custom_df[i, ], id_value)
+}
+print("Added games for week to tendency map")
+
 }
 
 

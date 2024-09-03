@@ -19,3 +19,27 @@ write_summary_to_db <- function(summary_df, id_value) {
   # Close the database connection
   dbDisconnect(scheduled_con)
 }
+
+
+write_game_to_tendecy_map <- function(dataframe, id_value) {
+    # Load necessary libraries
+  library(DBI)
+  library(RSQLite)
+
+  gameid <- dataframe$nfl_schedule_game_id
+  
+  scheduled_file <- file.path(db_directory, "tendencies.db")
+  
+  scheduled_con <- dbConnect(RSQLite::SQLite(), dbname = scheduled_file)
+
+  delete_query <- "DELETE FROM tendecy_game_map WHERE tendecy_id = ? AND nfl_schedule_game_id = ?"
+
+  dbExecute(scheduled_con, delete_query, params = list(id_value, gameid))
+  
+  # Insert the new row
+  dbWriteTable(scheduled_con, 'tendecy_game_map', dataframe, append = TRUE, row.names = FALSE)
+  
+  # Close the database connection
+  dbDisconnect(scheduled_con)
+
+}
