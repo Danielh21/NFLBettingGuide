@@ -1,7 +1,7 @@
 setwd("C:/Users/DanielHollmann/source/NFL.Predictions/")
 print(getwd())
 source("setup.R")
-source(file.path("TendencySpotter", "General", "WriteToScheduledDatabase.r"))
+source(file.path("TendencySpotter", "WriteToScheduledDatabase.r"))
 library(RSQLite)
 library(DBI)
 library(tictoc)
@@ -23,7 +23,7 @@ tables <- dbListTables(con)
 data <- dplyr::tbl(con, "nflfastR_pbp")
 
 game_with_negative_spread <- data %>%
-  filter(season >= 2022 & season <= 2024, spread_line < 0, div_game == 1) %>%   # Filter for positive home team spread line
+  filter(season >= 2018 & season <= 2024, spread_line < 0, div_game == 1) %>%   # Filter for positive home team spread line
   arrange(game_id) %>%   # Arrange by game_id to ensure ordering
   distinct(game_id, .keep_all = TRUE)%>%    # Keep one row per game_id
   select(home_team, away_team, home_score, away_score, spread_line, season, week )%>% 
@@ -40,7 +40,7 @@ id_value <- 1  # Tendecy id
 summary_table <- game_with_negative_spread %>%
   summarize(
     id = id_value,
-    text_describtion = 'Division games where home team are underdogs. Analysis team is the home team. Division dogs are [analysis_team_cover]-[analysis_team_not_cover]-[pushes] in games where the home team are underdog since 2022',
+    text_describtion = 'Division games where home team are underdogs. Analysis team is the home team. Division dogs are [analysis_team_cover]-[analysis_team_not_cover]-[pushes] in games where the home team are underdog since 2018',
     tendecyName = 'Division home underdog',
     games_included = n(),  # Total number of games analyzed
     analyis_team_cover = sum(cover == 1),  # Count of games where home team covered
