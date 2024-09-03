@@ -16,8 +16,6 @@ write_summary_to_db <- function(summary_df, id_value) {
   # Insert the new row
   dbWriteTable(scheduled_con, 'tendency', summary_df, append = TRUE, row.names = FALSE)
   
-  # Close the database connection
-  dbDisconnect(scheduled_con)
 }
 
 
@@ -39,7 +37,5 @@ write_game_to_tendecy_map <- function(dataframe, id_value) {
   # Insert the new row
   dbWriteTable(scheduled_con, 'tendecy_game_map', dataframe, append = TRUE, row.names = FALSE)
   
-  # Close the database connection
-  dbDisconnect(scheduled_con)
 
 }
