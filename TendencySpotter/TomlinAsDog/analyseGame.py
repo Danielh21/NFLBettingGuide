@@ -1,24 +1,20 @@
 import sqlite3
 from termcolor import colored
 
-def analyse_outer_confrence_game(game, conn : sqlite3.Connection):
+def analyse_tomlin_dog(game, conn : sqlite3.Connection):
 
-    # NFC teams
-    NFC = ["ARI", "ATL", "CAR", "CHI", "DAL", "DET", "GB", "LA", "MIN", "NO", "NYG", "PHI", "SEA", "SF", "TB", "WAS"]
+    
 
-    # AFC teams
-    AFC = ["BAL", "BUF", "CIN", "CLE", "DEN", "HOU", "IND", "JAX", "KC", "LAC", "LV", "MIA", "NE", "NYJ", "PIT", "TEN"]
-
-    is_NFC_vs_AFC = (game['home_team'] in NFC and game['away_team'] in AFC) or (game['home_team'] in AFC and game['away_team'] in NFC)
-
+    awayTeam_Tomlin_underdog = (game['away_coach'] == 'Mike Tomlin' and game['spread_line'] > 0)
+    homeTeam_Tomlin_underdog = (game['home_coach'] == 'Mike Tomlin' and game['spread_line'] < 0)
 
     print(colored(f"Game {game['home_team']} - {game['away_team']}  {game['spread_line']}", "green"))
-    tendency_id = 2
+    tendency_id = 3
     if(game['spread_line'] is None):
         print("Game does not have spread_line")
         return
     # Should insert if the game is a division game and the home team is a dog
-    if (is_NFC_vs_AFC):
+    if (homeTeam_Tomlin_underdog or awayTeam_Tomlin_underdog):
         print(colored(f"Game should count {game['home_team']} - {game['away_team']} ", "green"))
 
         queryToCheckIfExits = "select * from tendecy_game_map  where nfl_schedule_game_id = ? and tendecy_id  = ?"
@@ -29,13 +25,20 @@ def analyse_outer_confrence_game(game, conn : sqlite3.Connection):
 
         row = cursor.fetchone()
 
-        # if spread line is positive, the home team is favriote
-        homeTeamfav = game['spread_line'] > 0
+        # if spread line is positive, the home team is favriot
+        analyisTeam = 0
+
+        if(homeTeam_Tomlin_underdog):
+            analyisTeam = 1
+        
+        if(awayTeam_Tomlin_underdog):
+            analyisTeam = 0
+        
 
         if row is None:
             #Insert
             insertQuery = "insert into tendecy_game_map VALUES (?,?, ?) "
-            conn.execute(insertQuery, (tendency_id, game['game_id'],homeTeamfav))
+            conn.execute(insertQuery, (tendency_id, game['game_id'], analyisTeam))
             print(colored(f"Game Tendency Added to DB {game['home_team']} - {game['away_team']} ", "green"))
             conn.commit()
 

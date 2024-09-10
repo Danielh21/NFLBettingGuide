@@ -3,6 +3,7 @@ import pandas as pd
 import sqlite3
 from DivisionHomeDogs.analyseGame  import anaylse_game_divison_dog
 from OuterConfrenceGames.analyseGame import analyse_outer_confrence_game
+from TomlinAsDog.analyseGame import analyse_tomlin_dog
 
 # Check if the correct number of arguments has been provided
 if len(sys.argv) != 2:
@@ -32,6 +33,7 @@ try:
     for index, row in df.iterrows():
         anaylse_game_divison_dog(row, conn)
         analyse_outer_confrence_game(row, conn)
+        analyse_tomlin_dog(row, conn)
 
 except Exception as e:
     print(f"An error occurred: {e}")
