@@ -110,29 +110,17 @@ print("Added games for week to tendency map")
 # Starts the running of here 
 args <- commandArgs(trailingOnly = TRUE)
 
-insertToDatabase <- FALSE
 weekToAnalysis <- 0
 runWeekAnalysis <- FALSE
 
-
-
 if (length(args) >= 1) {
-  if(args[1] > 0) {
-    insertToDatabase <- TRUE
-    cat("Parameter 1 is set to:", args[1], "\n")
-  }
-}
-
-if (length(args) >= 1) {
-  weekToAnalysis <-  args[2]
+  weekToAnalysis <-  args[1]
   runWeekAnalysis <- TRUE
-  cat("Week To Analysis: ", args[2], "\n")
+  cat("Week To Analysis: ", args[1], "\n")
 }
 
 
-if(insertToDatabase) {
-  analysis_past_data(con)
-}
+analysis_past_data(con)
 
 if(runWeekAnalysis) {
   analysis_upcoming_week(con, weekToAnalysis)
